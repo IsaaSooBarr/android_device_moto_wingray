@@ -35,8 +35,13 @@ PRODUCT_PACKAGES := \
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
+    Galaxy4 \
     HoloSpiralWallpaper \
+    LiveWallpapers \
     LiveWallpapersPicker \
+    MagicSmokeWallpapers \
+    NoiseField \
+    PhaseBeam \
     VisualizationWallpapers
 
 # Camera
@@ -45,6 +50,7 @@ PRODUCT_PACKAGES += \
 
 # Additional settings used in all AOSP builds
 PRODUCT_PROPERTY_OVERRIDES := \
+    ro.carrier=wifi-only \
     ro.com.android.dateformat=MM-dd-yyyy \
     ro.config.ringtone=Sceptrum.ogg \
     ro.config.notification_sound=Cobalt.ogg \

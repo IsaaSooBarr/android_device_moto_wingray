@@ -18,18 +18,21 @@ DEVICE_PACKAGE_OVERLAYS := \
     device/moto/wingray/overlay
 
 PRODUCT_PROPERTY_OVERRIDES := \
-    wifi.interface=wlan0 \
-    wifi.supplicant_scan_interval=15
+    wifi.interface=wlan0
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=160
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 	persist.sys.usb.config=mtp
 
-include frameworks/base/build/tablet-dalvik-heap.mk
+include frameworks/native/build/tablet-dalvik-heap.mk
 
 PRODUCT_COPY_FILES += \
     device/moto/wingray/init.stingray.rc:root/init.stingray.rc \
     device/moto/wingray/init.stingray.usb.rc:root/init.stingray.usb.rc \
+    device/moto/wingray/fstab.stingray:root/fstab.stingray \
     device/moto/wingray/ueventd.stingray.rc:root/ueventd.stingray.rc \
 
 ifneq ($(TARGET_PREBUILT_WIFI_MODULE),)
@@ -45,19 +48,19 @@ PRODUCT_COPY_FILES += \
     device/moto/wingray/mXT1386_10_FF.bin:system/etc/firmware/mXT1386_10_FF.bin
 
 PRODUCT_COPY_FILES += \
-    frameworks/base/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
-    frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/base/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/base/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml \
-    frameworks/base/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
-    frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/base/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/base/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    frameworks/base/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
+    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
+    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+    frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
+    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
+    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+    $(call add-to-product-copy-files-if-exists,packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml)
 
 PRODUCT_COPY_FILES += \
         device/moto/wingray/vold.fstab:system/etc/vold.fstab \
@@ -67,12 +70,16 @@ PRODUCT_COPY_FILES += \
         device/moto/wingray/stingray-keypad.kl:system/usr/keylayout/stingray-keypad.kl \
         device/moto/wingray/stingray-keypad.kcm:system/usr/keychars/stingray-keypad.kcm
 
+PRODUCT_COPY_FILES += \
+        device/moto/wingray/libaudio/audio_policy.conf:system/etc/audio_policy.conf
+
 PRODUCT_PACKAGES := \
     camera.stingray \
     sensors.stingray \
     lights.stingray \
     audio.primary.stingray \
     audio.a2dp.default \
+    audio.usb.default \
     audio_policy.stingray \
     librs_jni \
     make_ext4fs \
@@ -90,6 +97,10 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 # media config xml file
 PRODUCT_COPY_FILES += \
     device/moto/wingray/media_profiles.xml:system/etc/media_profiles.xml
+
+# media codec config xml file
+PRODUCT_COPY_FILES += \
+    device/moto/wingray/media_codecs.xml:system/etc/media_codecs.xml
 
 # Bluetooth config file
 PRODUCT_COPY_FILES += \

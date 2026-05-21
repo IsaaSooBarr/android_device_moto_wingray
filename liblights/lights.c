@@ -62,7 +62,7 @@ static int write_int(char const *path, int value)
 		return amt == -1 ? -errno : 0;
 	} else {
 		if (already_warned == -1) {
-			LOGE("write_int failed to open %s\n", path);
+			ALOGE("write_int failed to open %s\n", path);
 			already_warned = 1;
 		}
 		return -errno;
@@ -82,7 +82,7 @@ static int write_string(char const *path, char const *value)
 		return amt == -1 ? -errno : 0;
 	} else {
 		if (already_warned == -1) {
-			LOGE("write_int failed to open %s\n", path);
+			ALOGE("write_int failed to open %s\n", path);
 			already_warned = 1;
 		}
 		return -errno;
@@ -136,7 +136,7 @@ set_notification_light(struct light_state_t const* state)
 	unsigned int brightness = rgb_to_brightness(state);
 	int blink = state->flashOnMS;
 
-	LOGD("set_notification_light colorRGB=%08X, onMS=%d, offMS=%d\n",
+	ALOGD("set_notification_light colorRGB=%08X, onMS=%d, offMS=%d\n",
 			state->color, state->flashOnMS, state->flashOffMS);
 
 	write_int("/sys/class/leds/notification-led/brightness", brightness);
@@ -175,7 +175,7 @@ handle_notification_light_locked(int type)
 		}
 	}
 	if (new_state == 0) {
-		LOGE("%s: unknown type (%d)\n", __func__, type);
+		ALOGE("%s: unknown type (%d)\n", __func__, type);
 		return;
 	}
 
@@ -274,7 +274,7 @@ static struct hw_module_methods_t lights_module_methods = {
 /*
  * The lights Module
  */
-const struct hw_module_t HAL_MODULE_INFO_SYM = {
+struct hw_module_t HAL_MODULE_INFO_SYM = {
 	.tag = HARDWARE_MODULE_TAG,
 	.version_major = 1,
 	.version_minor = 0,
