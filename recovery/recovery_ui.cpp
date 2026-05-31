@@ -49,7 +49,7 @@ class StingrayUI : public ScreenRecoveryUI {
         if (IsKeyPressed(KEY_END) && key == KEY_VOLUMEUP) {
             return TOGGLE;
         }
-        if (key == KEY_POWER) {
+        if (key == KEY_END) {
             ++consecutive_power_keys;
             if (consecutive_power_keys >= 7) {
                 return REBOOT;
